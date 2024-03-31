@@ -78,7 +78,7 @@ void initializeScreen() {
     GsClearOt(0, 0, &orderingTable[0]);
     GsClearOt(0, 0, &orderingTable[1]);
 
-    FntLoad(960,, 0);
+    FntLoad(960, 0);
     FntOpen(-CENTERX + 7, -CENTERY + 15, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 512);
 
     GsInit3D();
