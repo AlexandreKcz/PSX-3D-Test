@@ -1,6 +1,6 @@
 #include <libgs.h>
 #include <stdio.h>
-#include <constants.h>
+#include "constants.h"
 #include <stdlib.h>
 
 #define Sprite GsSPRITE

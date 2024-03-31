@@ -1,5 +1,5 @@
 #include <libgs.h>
-#include <constants.h>
+#include "constants.h"
 
 #define MAX_OBJECTS 100
 
