@@ -32,6 +32,15 @@
       "group": {
         "kind": "build"
       }
+    },
+    {
+      "label": "Build ISO",
+      "type": "shell",
+      "command": "copy ${workspaceRootFolderName}.elf main.elf; copy ${workspaceRootFolderName}.map main.map; copy ${workspaceRootFolderName}.ps-exe main.ps-exe; cd ${workspaceRoot}/mkpsxiso; ./mkpsxiso.exe -y ./cuesheet.xml; echo build complete",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
     }
   ]
 }

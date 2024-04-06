@@ -79,16 +79,14 @@ void RenderObject(VECTOR pos, SVECTOR rot, GsDOBJ2 *obj) {
 }
 
 int LoadTMD(u_long *tmd, GsDOBJ2 *obj, int enableLightning) {
+
+    printf("Loading TMD");
+
     u_long *dop;
     int i, NumObj;
 
     dop = tmd;
-    dop++;
-    GsMapModelingData(dop);
-
-    dop++;
-    NumObj = *dop;
-
+    
     dop++;
     GsMapModelingData(dop);
 
@@ -103,6 +101,8 @@ int LoadTMD(u_long *tmd, GsDOBJ2 *obj, int enableLightning) {
             obj[i].attribute = (1<<6);
         }
     }
+
+    printf("TMD Load Done");
 
     return (NumObj);
 }
@@ -135,6 +135,8 @@ void loadTexture(unsigned char imageData[]) {
     free3(rect);
     free3(crect);
     free3(tim_data);
+
+    printf("Texture loading done");
 }
 
 VECTOR pos;

@@ -24,6 +24,31 @@
         "tbreak main",
         "continue"
       ]
+    },
+    {
+      "name": "ISODebug",
+      "type": "gdb",
+      "request": "attach",
+      "target": "localhost:3333",
+      "remote": true,
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText",
+      "stopAtConnect": true,
+      "gdbpath": "gdb-multiarch",
+      "windows": {
+        "gdbpath": "gdb-multiarch.exe"
+      },
+      "osx": {
+        "gdbpath": "gdb"
+      },
+      "executable": "{workspaceRoot}/main.elf",
+      "autorun": [
+        "monitor reset hard shellhalt",
+        "monitor mountcd ${workspaceRoot}/mkpsxiso/game.cue",
+        "load main.elf",
+        "tbreak main",
+        "continue"
+      ]
     }
   ]
 }

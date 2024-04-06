@@ -42,13 +42,13 @@ void Initialize(){
     initializeScreen();
     initializePad();
     cd_open();
-    cd_read_file("CAR.TMD", &cdData[0]);
+    cd_read_file("WRENCH.TMD", &cdData[0]);
     cd_read_file("CAR.TIM", &cdData[1]);
     cd_read_file("GRID.TMD", &cdData[2]);
 
     cd_close();
 
-    loadTexture((u_char *) cdData[1]);
+    loadTexture((u_char *)cdData[1]);
 }
 
 void Start() {
@@ -60,8 +60,8 @@ void Start() {
 	Camera.position.vy = 2500;
 	Camera.position.vz = 5000;
 
-	Camera.rotation.vx = 400;
-	Camera.rotation.vy = 400;
+	//Camera.rotation.vx = 400;
+	//Camera.rotation.vy = 400;
 
 	//Car
 	car.position.vx = 3500;
@@ -101,10 +101,17 @@ void Render () {
 	// Render debug text. this is good for seeing what
 	//some variables are doing while the game is running
 	//or just to display some text to the player.
+
+	/*
 	FntPrint("X: forward\n");
 	FntPrint("Square: reverse\n");
 	FntPrint("D-pad: Steer\n");
 	FntPrint("Select: Reset RC Car\n");
+	*/
+
+	FntPrint("Camera Rotation : (%d, %d, %d)\n", Camera.rotation.vx, Camera.rotation.vy, Camera.rotation.vz);
+	FntPrint("Camera Position : (%d, %d, %d)\n", Camera.position.vx, Camera.position.vy, Camera.position.vz);
+
 	//FntPrint("Car Position: (%d, %d, %d)\n", car.position.vx, car.position.vy, car.position.vz);
 	//FntPrint("Car Rotation: (%d, %d, %d)\n", car.rotation.vx, car.rotation.vy, car.rotation.vz);
 
@@ -127,28 +134,70 @@ void Controls () {
 
 	if (padCheck(Pad1Left)) {
 		//Turn car Left
-		car.rotation.vy -= rotationSpeed;
+		//car.rotation.vy -= rotationSpeed;
+		Camera.rotation.vy += rotationSpeed;
 	}
 
 	if (padCheck(Pad1Right)) {
 		//Turn car Right
-		car.rotation.vy += rotationSpeed;
+		//car.rotation.vy += rotationSpeed;
+		Camera.rotation.vy -= rotationSpeed;
+	}
+
+	if (padCheck(Pad1Up)) {
+
+		SVECTOR rerootedForward = Camera.rotation;
+		rerootedForward.vx *= -1;
+		rerootedForward.vy *= -1;
+		rerootedForward.vz *= -1;
+
+		newMoveVec = Translate(rerootedForward, 0, 0, -movementSpeed * ONE/500);
+		
+		Camera.position.vx += newMoveVec.vx;
+		Camera.position.vy += newMoveVec.vy;
+		Camera.position.vz += newMoveVec.vz;
+	}
+
+	if (padCheck(Pad1Down)) {
+
+		SVECTOR rerootedForward = Camera.rotation;
+		rerootedForward.vx *= -1;
+		rerootedForward.vy *= -1;
+		rerootedForward.vz *= -1;
+
+		newMoveVec = Translate(rerootedForward, 0, 0, movementSpeed * ONE/500);
+		
+		Camera.position.vx += newMoveVec.vx;
+		Camera.position.vy += newMoveVec.vy;
+		Camera.position.vz += newMoveVec.vz;
 	}
 
 	if (padCheck(Pad1Cross)) {
 		//Move car forwards
-		newMoveVec = Translate(car.rotation, 0, 0, movementSpeed * ONE/500);
+		/*newMoveVec = Translate(car.rotation, 0, 0, movementSpeed * ONE/500);
 		car.position.vx += newMoveVec.vx;
 		car.position.vy += newMoveVec.vy;
-		car.position.vz += newMoveVec.vz;
+		car.position.vz += newMoveVec.vz;*/
+
+		newMoveVec = Translate(Camera.rotation, 0, movementSpeed * ONE/500, 0);
+		
+		Camera.position.vx += newMoveVec.vx;
+		Camera.position.vy += newMoveVec.vy;
+		Camera.position.vz += newMoveVec.vz;
 	}
 
 	if (padCheck(Pad1Square)) {
 		//Move car backwards
-		newMoveVec = Translate(car.rotation, 0, 0, -movementSpeed * ONE/500);
+		/*newMoveVec = Translate(car.rotation, 0, 0, -movementSpeed * ONE/500);
 		car.position.vx += newMoveVec.vx;
 		car.position.vy += newMoveVec.vy;
-		car.position.vz += newMoveVec.vz;
+		car.position.vz += newMoveVec.vz;*/
+
+		newMoveVec = Translate(Camera.rotation, 0, -movementSpeed * ONE/500, 0);
+		
+		Camera.position.vx += newMoveVec.vx;
+		Camera.position.vy += newMoveVec.vy;
+		Camera.position.vz += newMoveVec.vz;
 	}
 
 	if (padCheck(Pad1Select)) {
